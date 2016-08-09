@@ -41,22 +41,7 @@ let scene = [
   {
     speaking: 'jeff',
     visible: ['jeff'],
-    text: 'Next is Genetically Augmented Chalupa Dan Ryckert...'
-  },
-  {
-    speaking: 'dan',
-    visible: ['dan'],
-    text: 'Grrdalkrlakfalkrjalrlakdfjlakrlakrjflsslslrjs....'
-  },
-  {
-    speaking: 'jeff',
-    visible: ['jeff'],
-    text: 'I think we might need more Taco Bell wrappers under Dan to keep it clean in here.'
-  },
-  {
-    speaking: 'jeff',
-    visible: ['jeff'],
-    text: 'And at the end of the row is the disembodied cybernetic head of Alex Navaro....'
+    text: 'Next is the disembodied cybernetic head of Alex Navaro....'
   },
   {
     speaking: 'alex',
@@ -67,6 +52,21 @@ let scene = [
     speaking: 'jeff',
     visible: ['jeff'],
     text: 'A ray of sunshine, absolutely uplifting.'
+  },
+  {
+    speaking: 'jeff',
+    visible: ['jeff'],
+    text: 'And at the end of the row is Genetically Augmented Chalupa Dan Ryckert...'
+  },
+  {
+    speaking: 'dan',
+    visible: ['dan'],
+    text: 'Grrdalkrlakfalkrjalrlakdfjlakrlakrjflsslslrjs....'
+  },
+  {
+    speaking: 'jeff',
+    visible: ['jeff'],
+    text: 'I think we might need more Taco Bell wrappers under Dan to keep it clean in here.'
   },
   {
     speaking: 'jeff',

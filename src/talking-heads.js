@@ -24,10 +24,12 @@ export default class TalkingHeads {
         let graphics = this.add.graphics(5, 500);
         graphics.lineStyle(5, 0xFFFFFF, 1);
         graphics.drawRoundedRect(0, 0, 790, 95, 5);
+        graphics.fixedToCamera = true;
 
         let bg = this.add.graphics(0, 340);
         bg.beginFill(0x8800FF);
         bg.drawRect(0, 0, 800, 160);
+        bg.fixedToCamera = true;
 
         this.textObject = this.add.text(15, 515, '', dialogFont);
 
@@ -42,11 +44,15 @@ export default class TalkingHeads {
         this.sprites.brad = this.add.sprite(320, 340, 'brad');
         this.bradTalk = this.sprites.brad.animations.add('talk');
 
-        this.sprites.dan = this.add.sprite(480, 340, 'dan');
+        this.sprites.alex = this.add.sprite(480, 340, 'alex');
+        this.alexTalk = this.sprites.alex.animations.add('talk');
+
+        this.sprites.dan = this.add.sprite(640, 340, 'dan');
         this.danTalk = this.sprites.dan.animations.add('talk');
 
-        this.sprites.alex = this.add.sprite(640, 340, 'alex');
-        this.alexTalk = this.sprites.alex.animations.add('talk');
+        for (let name in this.sprites) {
+          this.sprites[name].fixedToCamera = true;
+        }
     }
 
     setVisible(whoAllIsVisible) {

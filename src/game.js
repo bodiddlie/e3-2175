@@ -10,7 +10,7 @@ export class Game extends Phaser.Game {
         super(800, 600, Phaser.AUTO, 'phaser-canvas', { create: () => {
             this.state.add('Intro', Intro);
             this.state.add('Microsoft', Microsoft);
-            this.state.start('Intro');
+            this.state.start('Microsoft');
         }});
     }
 }
