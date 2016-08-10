@@ -30,4 +30,9 @@ export default class InputManager {
   fire() {
     return (this.space.isDown);
   }
+
+  addUpEvent(handler) {
+    this.cursors.up.onDown.add(handler, this);
+    this.W.onDown.add(handler, this);
+  }
 }

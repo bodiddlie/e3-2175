@@ -14,7 +14,7 @@ const PATHS = {
 
 module.exports = {
     entry: {
-        main: PATHS.main
+        main: ['babel-polyfill',PATHS.main]
     },
     devtool: 'eval-source-map',
     resolve: {
