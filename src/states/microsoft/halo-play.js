@@ -7,6 +7,8 @@ const MUZZLE_X_RIGHT = 41;
 const MUZZLE_X_LEFT = 8;
 const MUZZLE_Y = 25;
 
+const MOVE_SPEED = 3;
+
 let nextFire = 0;
 
 export class HaloPlay extends Phaser.State {
@@ -34,8 +36,8 @@ export class HaloPlay extends Phaser.State {
     this.player = this.add.sprite(200, 290, 'halo');
     this.player.animations.add('idle-right', [0], 3, true);
     this.player.animations.add('idle-left', [1], 3, true);
-    this.player.animations.add('left', [8,9,10,11,12,13,14,15], 10, true);
-    this.player.animations.add('right', [16,17,18,19,20,21,22,23], 10, true);
+    this.player.animations.add('left', [8,9,10,11,12,13,14,15], 8, true);
+    this.player.animations.add('right', [16,17,18,19,20,21,22,23], 8, true);
     this.player.animations.add('crouch-right', [2], 3, true);
     this.player.animations.add('crouch-left', [3], 3, true);
     this.player.animations.add('jump-right', [4], 3, true);
@@ -62,11 +64,11 @@ export class HaloPlay extends Phaser.State {
     this.game.add.tween(this.bg).to({alpha: 1}, 2000, null, true);
     this.game.add.tween(this.player).to({alpha: 1}, 2000, null, true);
 
-    this.physics.arcade.gravity.y = 200;
+    this.physics.arcade.gravity.y = 300;
 
     this.player.jumping = false;
 
-    this.controls.addUpEvent(() => this.player.body.velocity.y = -150);
+    this.controls.addUpEvent(() => this.player.body.velocity.y = -125);
   }
 
   update() {
@@ -78,10 +80,10 @@ export class HaloPlay extends Phaser.State {
   controlPlayer() {
     if (this.controls.right()) {
       this.player.direction = 'right';
-      this.player.x += 4;
+      this.player.x += MOVE_SPEED;
     } else if (this.controls.left()) {
       this.player.direction = 'left';
-      this.player.x -= 4;
+      this.player.x -= MOVE_SPEED;
     }
   }
 
@@ -100,7 +102,7 @@ export class HaloPlay extends Phaser.State {
   }
 
   animatePlayer() {
-    let jumping = Math.abs(this.player.body.velocity.y) > 0;
+    let jumping = Math.abs(this.player.body.velocity.y) > 0 || this.player.y + this.player.height < 340;
 
     if (!jumping) {
       if (this.controls.right() || this.controls.left()) {
