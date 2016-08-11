@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 import TalkingHeads from '../../talking-heads';
 import InputManager from '../../input-manager';
+import {EnemyPatrol} from '../../shared/enemy-patrol';
 
 const MUZZLE_X_RIGHT = 41;
 const MUZZLE_X_LEFT = 8;
@@ -20,6 +21,7 @@ export class HaloPlay extends Phaser.State {
   preload() {
     this.heads.preload();
     this.load.spritesheet('halo', 'assets/microsoft-sprites/halo.png', 50, 50, 24);
+    this.load.spritesheet('enemy', 'assets/microsoft-sprites/guard_anim_big.png', 64, 64, 27);
     this.load.image('bullet', 'assets/microsoft-sprites/bullet.png');
     this.load.image('starfield', 'assets/microsoft-sprites/starfield.png');
   }
@@ -33,21 +35,8 @@ export class HaloPlay extends Phaser.State {
 
     this.heads.create();
 
-    this.player = this.add.sprite(200, 290, 'halo');
-    this.player.animations.add('idle-right', [0], 3, true);
-    this.player.animations.add('idle-left', [1], 3, true);
-    this.player.animations.add('left', [8,9,10,11,12,13,14,15], 8, true);
-    this.player.animations.add('right', [16,17,18,19,20,21,22,23], 8, true);
-    this.player.animations.add('crouch-right', [2], 3, true);
-    this.player.animations.add('crouch-left', [3], 3, true);
-    this.player.animations.add('jump-right', [4], 3, true);
-    this.player.animations.add('jump-left', [5], 3, true);
-    this.player.animations.add('hit-right', [6], 3, true);
-    this.player.animations.add('hit-left', [7], 3, true);
-    this.player.direction = 'right';
-    this.player.alpha = 0;
-    this.physics.enable(this.player);
-    this.player.body.collideWorldBounds = true;
+    this.setupPlayer();
+    this.setupEnemies();
 
     this.bullets = this.add.group();
     this.bullets.enableBody = true;
@@ -66,15 +55,40 @@ export class HaloPlay extends Phaser.State {
 
     this.physics.arcade.gravity.y = 300;
 
-    this.player.jumping = false;
-
     this.controls.addUpEvent(() => this.player.body.velocity.y = -125);
+  }
+
+  setupPlayer() {
+    this.player = this.add.sprite(200, 290, 'halo');
+    this.player.animations.add('idle-right', [0], 3, true);
+    this.player.animations.add('idle-left', [1], 3, true);
+    this.player.animations.add('left', [8,9,10,11,12,13,14,15], 8, true);
+    this.player.animations.add('right', [16,17,18,19,20,21,22,23], 8, true);
+    this.player.animations.add('crouch-right', [2], 3, true);
+    this.player.animations.add('crouch-left', [3], 3, true);
+    this.player.animations.add('jump-right', [4], 3, true);
+    this.player.animations.add('jump-left', [5], 3, true);
+    this.player.animations.add('hit-right', [6], 3, true);
+    this.player.animations.add('hit-left', [7], 3, true);
+    this.player.direction = 'right';
+    this.player.alpha = 0;
+    this.physics.enable(this.player);
+    this.player.body.collideWorldBounds = true;
+    this.player.jumping = false;
+  }
+
+  setupEnemies() {
+    this.enemies = this.add.group();
+    let baddy = new EnemyPatrol(this.game, this.player.x + 100, this.player.y - 100);
+    baddy.animations.play('left');
+    this.enemies.add(baddy);
   }
 
   update() {
     this.controlPlayer();
     this.playerShoot();
     this.animatePlayer();
+    this.checkCollision();
   }
 
   controlPlayer() {
@@ -113,5 +127,14 @@ export class HaloPlay extends Phaser.State {
     } else {
       this.player.animations.play('jump-' + this.player.direction);
     }
+  }
+
+  checkCollision() {
+    this.physics.arcade.collide(this.bullets, this.enemies, this.bulletEnemyCollide, null, this);
+  }
+
+  bulletEnemyCollide(bullet, enemy) {
+    bullet.kill();
+    enemy.kill();
   }
 }
